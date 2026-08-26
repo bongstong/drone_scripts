@@ -19,6 +19,7 @@ def stop_recording(video_process: subprocess.Popen) -> None:
     """--- STOP RECORDING ---
     sends a 'Ctrl+C' signal to the background process to save the file"""
     os.killpg(os.getpgid(video_process.pid), signal.SIGINT)
+    subprocess.run(["killall", "ffmpeg"])
     print("Recording stopped and saved.")
     return None
 
