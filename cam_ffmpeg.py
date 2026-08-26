@@ -2,8 +2,7 @@ import subprocess
 
 
 def start_recording() -> subprocess.Popen:
-    """--- START RECORDING ---
-    launch FFmpeg as a background process"""
+    """launch ffmpeg as a background process"""
     # my camera is upside down so I flip the video
     CMD: str = (
         # "ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -i /dev/video0 -c:v libx264 -preset ultrafast -y flight.mp4"
@@ -19,16 +18,16 @@ def start_recording() -> subprocess.Popen:
 
 
 def stop_recording(video_process: subprocess.Popen) -> None:
-    """--- STOP RECORDING ---
-    sends a 'Ctrl+C' signal to the background process to save the file"""
-    video_process.communicate(input=b'q', timeout=10)
+    """stops the recording and saves file"""
+    video_process.communicate(input=b"q", timeout=10)
     return None
 
 
 if __name__ == "__main__":
     video_proces: subprocess.Popen = start_recording()
     try:
-        pass
+        while True:
+            __import__("time").sleep(1)
     except KeyboardInterrupt:
         stop_recording(video_proces)
         quit()
