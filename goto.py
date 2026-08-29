@@ -3,9 +3,9 @@ from __future__ import print_function
 import time
 from dronekit import Vehicle, connect, VehicleMode, LocationGlobalRelative
 from convert import dms2wgs
-from camera import start_recording, stop_recording
+from cam_ffmpeg import start_recording, stop_recording
 
-CONNECTION_STRING = "/dev/ttyAMA0"
+CONNECTION_STRING: str = "/dev/ttyAMA0"
 
 
 BAUD_RATE: int = 921600

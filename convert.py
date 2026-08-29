@@ -20,4 +20,5 @@ def dms2wgs(dms: list) -> tuple:
     return convert(dms[0]), convert(dms[1])
 
 
-print(dms2wgs([[47, 13, 18.57, "N"], [1, 34, 48.61, "W"]]))
+if __name__ == "__main__":
+    print(dms2wgs([[47, 13, 18.57, "N"], [1, 34, 48.61, "W"]]))

@@ -3,7 +3,7 @@ from __future__ import print_function
 import time
 from dronekit import Vehicle, connect, VehicleMode  # , LocationGlobalRelative
 
-CONNECTION_STRING = "/dev/ttyAMA0"
+CONNECTION_STRING: str = "/dev/ttyAMA0"
 
 
 BAUD_RATE: int = 921600
@@ -20,9 +20,9 @@ drone.wait_ready("autopilot_version")
 print("CONNECTED SUCCESSFULLY!")
 
 
-def arm_and_takeoff(TargetAltitude):
+def arm_and_takeoff(target_altitude):
     """
-    Arms vehicle and fly to aTargetAltitude.
+    Arms vehicle and fly to target_altitude.
     """
 
     print("BASIC PRE-ARM CHECKS")
@@ -43,13 +43,13 @@ def arm_and_takeoff(TargetAltitude):
 
     print("DRONE ARMED")
     print("TAKING OFF!")
-    drone.simple_takeoff(TargetAltitude)  # Take off to target altitude
+    drone.simple_takeoff(target_altitude)  # Take off to target altitude
 
     # Wait until the vehicle reaches a safe height before processing the goto
     #  (otherwise the command after Vehicle.simple_takeoff will execute
     #   immediately).
 
-    while drone.location.global_relative_frame.alt <= TargetAltitude * 0.95:
+    while drone.location.global_relative_frame.alt <= target_altitude * 0.95:
         print(" Altitude: ", drone.location.global_relative_frame.alt)
         time.sleep(1)
     print("REACHED TARGET ALTITUDE")
