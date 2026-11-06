@@ -1,7 +1,7 @@
 from __future__ import print_function
 import time
 from dronekit import Vehicle, connect
-from source.mark1 import start_flame_on, flame_on
+from source.mark1 import start_flame_on
 
 CONNECTION_STRING: str = "/dev/ttyAMA0"
 
@@ -18,8 +18,21 @@ print("HEARTBEAT RECEIVED! CONNECTING TO PARAMETERS...")
 drone.wait_ready("autopilot_version")
 print("CONNECTED SUCCESSFULLY!")
 
-while True:
-    start_flame_on(drone)
+
+# using drone.channels doens't work so I fix it
+@drone.on_message("RC_CHANNELS")
+def rc_listener(self, name, message):
+    global switch6
+    # map mavlink message to dict
+    switch6 = message.chan6_raw
+
+
+try:
+    while True:
+        print(switch6)
+        # start_flame_on(drone)
+except KeyboardInterrupt:
+    quit()
 
 print("CLOSING VEHICLE OBJECT")
 drone.close()
