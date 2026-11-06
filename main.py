@@ -1,5 +1,10 @@
-from __future__ import print_function
 import time
+import collections
+import collections.abc
+collections.MutableMapping = collections.abc.MutableMapping
+collections.MutableSequence = collections.abc.MutableSequence
+collections.Mapping = collections.abc.Mapping
+collections.Sequence = collections.abc.Sequence
 from dronekit import Vehicle, connect
 from source.mark1 import start_flame_on
 
