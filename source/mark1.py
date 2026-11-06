@@ -24,12 +24,11 @@ def flame_on() -> None:
     return None
 
 
-def start_flame_on(drone, rc_num: str = "6") -> None:
-    """Listens to RC switch number _ and when high calls
-    the flame_on function"""
-    print(drone.channels[rc_num])
-    # if drone.channels[rc_num] >= 1800:
-    #     flame_on()
+def start_flame_check(drone, switch_value) -> None:
+    """ if switch value > 1800 (basically switch pushed down maximum)
+    then we start the fire"""
+    if switch_value >= 1800:
+        flame_on()
 
 
 if __name__ == "__main__":

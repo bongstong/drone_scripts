@@ -1,12 +1,13 @@
 import time
 import collections
 import collections.abc
+
 collections.MutableMapping = collections.abc.MutableMapping
 collections.MutableSequence = collections.abc.MutableSequence
 collections.Mapping = collections.abc.Mapping
 collections.Sequence = collections.abc.Sequence
 from dronekit import Vehicle, connect
-from source.mark1 import start_flame_on
+from source.mark1 import start_flame_check
 
 CONNECTION_STRING: str = "/dev/ttyAMA0"
 
@@ -22,20 +23,24 @@ while not drone.last_heartbeat:
 print("HEARTBEAT RECEIVED! CONNECTING TO PARAMETERS...")
 drone.wait_ready("autopilot_version")
 print("CONNECTED SUCCESSFULLY!")
+switch6 = None
 
 
 # using drone.channels doens't work so I fix it
-@drone.on_message("RC_CHANNELS")
-def rc_listener(self, name, message):
-    global switch6
-    # map mavlink message to dict
-    switch6 = message.chan6_raw
+drone.add_message_listener(
+    "RC_CHANNELS",
+    lambda self, name, msg: setattr(
+        drone,
+        "ch6_raw",
+        msg.chan6_raw,
+    ),
+)
 
 
 try:
     while True:
-        print(switch6)
-        # start_flame_on(drone)
+        ch6 = getattr(drone, 'ch6_raw', None)
+        start_flame_check(drone, ch6)
 except KeyboardInterrupt:
     quit()
 
